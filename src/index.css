@@ -59,21 +59,38 @@ body {
   margin: 0;
 }
 
-button {
-  outline: none;
-  border: none;
-  background-color: transparent;
-  cursor: pointer;
-}
-button:disabled {
-  cursor: not-allowed;
-  background-color: rgb(var(--color-secondary-100), 0.5);
-  pointer-events: none;
-  box-shadow: none;
-}
-
 a {
   color: inherit;
   text-decoration: none;
   cursor: pointer;
+}
+
+@layer components {
+  .headerContainer {
+    @apply flex justify-center items-center gap-4;
+  }
+  .searchContainer {
+    @apply flex mt-4 w-full max-w-[900px] justify-between items-center gap-4 border border-gray-300 rounded-full p-4;
+  }
+  .searchItemContainer {
+    @apply flex items-center relative;
+  }
+  .seperator {
+    @apply w-0.5 h-3 inline-block bg-slate-300 mx-4;
+  }
+  .primaryBtn {
+    @apply flex items-center justify-center bg-primary-600 text-white p-2 rounded-2xl;
+  }
+  .icon {
+    @apply w-6 h-6 inline-block;
+  }
+  .popUpContainer {
+    @apply w-[350px] h-fit bg-white shadow rounded-2xl p-4 bottom-0.5 border-gray-400 top-8 absolute z-10;
+  }
+  .guestItem {
+    @apply flex items-center justify-between gap-4 mb-8;
+  }
+  .actionBtn {
+    @apply inline-block p-2 cursor-pointer  rounded-full text-gray-400 border border-gray-200 disabled:cursor-not-allowed;
+  }
 }

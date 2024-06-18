@@ -5,8 +5,12 @@ import { format } from 'date-fns';
 import { MdLocationOn } from 'react-icons/md';
 import { HiCalendar, HiMinus, HiPlus, HiSearch } from 'react-icons/hi';
 import { DateRange } from 'react-date-range';
+import { useNavigate } from 'react-router';
+import { createSearchParams, useSearchParams } from 'react-router-dom';
 
 function Header() {
+  const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [destination, setDestination] = useState('');
   const [openOptions, setOpenOptions] = useState(false);
   const [openDate, setOpenDate] = useState(false);
@@ -50,7 +54,18 @@ function Header() {
       )
     );
   };
-  const handleSearch = () => {};
+  const handleSearch = () => {
+    const params = createSearchParams({
+      date: JSON.stringify(date),
+      location: location,
+      options: JSON.stringify(guestOtions),
+    });
+    setSearchParams(params);
+    navigate({
+      pathname: '/locations',
+      search: searchParams.toString(),
+    });
+  };
   return (
     <div className="headerContainer">
       <div className="searchContainer">

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState } from 'react';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
@@ -63,7 +64,7 @@ function Header() {
     setSearchParams(params);
     navigate({
       pathname: '/locations',
-      search: searchParams.toString(),
+      search: params.toString(),
     });
   };
   return (

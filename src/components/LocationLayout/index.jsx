@@ -1,4 +1,5 @@
 import { Outlet } from 'react-router';
+import Map from '../Map';
 
 const LocationLayout = () => {
   return (
@@ -6,7 +7,9 @@ const LocationLayout = () => {
       <div className="w-1/2 overflow-y-scroll pr-4">
         <Outlet />
       </div>
-      <div className="bg-gray-200 flex-1 relative">map</div>
+      <div className="bg-gray-200 flex-1 relative">
+        <Map />
+      </div>
     </div>
   );
 };

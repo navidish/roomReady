@@ -5,7 +5,7 @@ const Map = () => {
   const [position, setPosition] = useState([35.7219, 51.3347]);
   return (
     <MapContainer
-      className="h-screen"
+      className="h-full"
       center={position}
       zoom={13}
       scrollWheelZoom={true}
@@ -16,7 +16,10 @@ const Map = () => {
       />
       <Marker position={position}>
         <Popup>
-          A pretty CSS3 popup. <br /> Easily customizable.
+          <div className='flex justify-center items-center flex-col'>
+          <p className="text-primary-600">hi shasan</p>
+          <button className=' rounded border bg-primary-600  text-white font-bold p-1'>save</button>
+          </div>
         </Popup>
       </Marker>
     </MapContainer>

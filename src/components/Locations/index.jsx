@@ -1,34 +1,41 @@
 /* eslint-disable no-unused-vars */
-import { useSearchParams } from 'react-router-dom';
+import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import useFetch from '../../hooks/useFetch';
 import { FaStar } from 'react-icons/fa6';
+import { useLocations } from '../../context/LocationsProvider';
 
 function Locations() {
-  const BASE_URL = 'http://localhost:5000/hotels';
-  const [searchParams, setSearchParams] = useSearchParams();
-  const destination = searchParams.get('destination');
-  const room = JSON.parse(searchParams.get('options'))?.find(
-    (opt) => opt.type === 'room'
-  )?.count;
-  const { data, isLoading } = useFetch(
-    BASE_URL,
-    `q=${destination || ''}&accommodates_gte=${room || 1}`
-  );
+  const { isLoading, locations } = useLocations();
+  const hasSearchValue = location?.pathname?.includes('location');
   return (
-    <div className="my-8 mx-8">
+    <div className="my-4 mx-8">
       <h2 className="font-bold text-2xl text-primary-600 mb-8">
-        Nearby Locations
+        {hasSearchValue
+          ? `search result (${locations?.length})`
+          : 'Nearby Locations'}
       </h2>
+
       {isLoading ? (
         <p className="text-primary-600">loading data ...</p>
       ) : (
         <>
           <div className="grid gap-8 grid-cols-3">
-            {data.map((item) => {
+            {locations?.map((item) => {
               return (
-                <div key={item.id}>
+                <Link
+                  key={item.id}
+                  to={
+                    hasSearchValue
+                      ? `${location?.pathname}/${item.id}?lat=${item.latitude}&lng=${item.longitude}`
+                      : `locations/${item.id}?lat=${item.latitude}&lng=${item.longitude}`
+                  }
+                >
                   <img
-                    className="w-full h-80 mb-2 rounded-lg"
+                    className={
+                      hasSearchValue
+                        ? 'w-40 h-40 mb-2 rounded-lg'
+                        : 'w-full h-80 mb-2 rounded-lg'
+                    }
                     src={item.thumbnail_url}
                     alt={item.name}
                   />
@@ -46,7 +53,7 @@ function Locations() {
                       <span className="font-light">night</span>
                     </p>
                   </div>
-                </div>
+                </Link>
               );
             })}
           </div>

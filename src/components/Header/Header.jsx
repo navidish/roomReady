@@ -12,7 +12,9 @@ import { createSearchParams, useSearchParams } from 'react-router-dom';
 function Header() {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
-  const [destination, setDestination] = useState('');
+  const [destination, setDestination] = useState(
+    searchParams.get('destination') || ''
+  );
   const [openOptions, setOpenOptions] = useState(false);
   const [openDate, setOpenDate] = useState(false);
   const [date, setDate] = useState([
@@ -39,7 +41,10 @@ function Header() {
       type: 'room',
       description: 'numbers of room',
       minLimit: 1,
-      count: 1,
+      count:
+        JSON.parse(searchParams.get('options'))?.find(
+          (opt) => opt.type === 'room'
+        )?.count || 1,
     },
   ]);
 
@@ -57,9 +62,10 @@ function Header() {
   };
   const handleSearch = () => {
     const params = createSearchParams({
-      date: JSON.stringify(date),
-      location: location,
-      options: JSON.stringify(guestOtions),
+      destination: destination,
+      options: JSON.stringify(
+        guestOtions.map(({ count, type }) => ({ type, count }))
+      ),
     });
     setSearchParams(params);
     navigate({

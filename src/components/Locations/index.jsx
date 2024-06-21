@@ -1,9 +1,19 @@
+/* eslint-disable no-unused-vars */
+import { useSearchParams } from 'react-router-dom';
 import useFetch from '../../hooks/useFetch';
 import { FaStar } from 'react-icons/fa6';
 
 function Locations() {
-  const { data, isLoading } = useFetch('http://localhost:5000/hotels', '');
-
+  const BASE_URL = 'http://localhost:5000/hotels';
+  const [searchParams, setSearchParams] = useSearchParams();
+  const destination = searchParams.get('destination');
+  const room = JSON.parse(searchParams.get('options'))?.find(
+    (opt) => opt.type === 'room'
+  )?.count;
+  const { data, isLoading } = useFetch(
+    BASE_URL,
+    `q=${destination || ''}&accommodates_gte=${room || 1}`
+  );
   return (
     <div className="my-8 mx-8">
       <h2 className="font-bold text-2xl text-primary-600 mb-8">

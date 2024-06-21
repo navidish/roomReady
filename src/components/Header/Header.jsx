@@ -113,14 +113,18 @@ function Header() {
           <span className="seperator"></span>
         </div>
         <div className="searchItemContainer">
-          <div id="optionDropDown" onClick={() => setOpenOptions(!openOptions)}>
+          <div
+            className="flex w-full"
+            id="optionDropDown"
+            onClick={() => setOpenOptions(!openOptions)}
+          >
             {guestOtions.map((option) => {
               return (
-                <>
+                <div key={option.type}>
                   {option.count}
                   {option.type}
                   &nbsp;&bull;&nbsp;
-                </>
+                </div>
               );
             })}
           </div>

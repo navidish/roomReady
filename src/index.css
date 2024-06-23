@@ -94,4 +94,7 @@ a {
   .actionBtn {
     @apply inline-block p-2 cursor-pointer  rounded-full text-gray-400 border border-gray-200 disabled:cursor-not-allowed;
   }
+  .sliderLeftAction {
+    @apply absolute top-[50%] -translate-x-0 translate-y-[-50%] left-2 text-2xl rounded-full p-2 text-black bg-white cursor-pointer;
+  }
 }

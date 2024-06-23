@@ -4,6 +4,7 @@ import Locations from './components/Locations';
 import LocationLayout from './components/locationLayout';
 import LocationsProvider from './context/LocationsProvider';
 import LocationDetail from './components/LocationDetail';
+import Map from './components/Map';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route index element={<Locations />} />
           <Route path=":id" element={<LocationDetail />} />
         </Route>
+        <Route path="/Maps" element={<Map />} />
       </Routes>
     </LocationsProvider>
   );

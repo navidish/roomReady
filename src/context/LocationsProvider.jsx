@@ -5,7 +5,7 @@ import useFetch from '../hooks/useFetch';
 import axios from 'axios';
 
 const Locationcontext = createContext();
-const BASE_URL = 'http://localhost:5000/hotels';
+const BASE_URL = 'http://localhost:5000/airbnb';
 
 function LocationsProvider({ children }) {
   const [currentLocation, setCurrentLocation] = useState({});

@@ -3,10 +3,13 @@ import { useState } from 'react';
 import { FaChevronLeft } from 'react-icons/fa6';
 import { FaChevronRight } from 'react-icons/fa6';
 import { RxDotFilled } from 'react-icons/rx';
+import { FaRegHeart } from 'react-icons/fa6';
+import { FaHeart } from 'react-icons/fa6';
 
 const Slider = ({ images }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  console.log(images);
+  const [favourite, setFavourite] = useState(false);
+
   const prevSlide = () => {
     const isFirstSlide = currentIndex === 0;
     const newIndex = isFirstSlide ? images.length - 1 : currentIndex - 1;
@@ -17,14 +20,22 @@ const Slider = ({ images }) => {
     const newIndex = isLastSlide ? 0 : currentIndex + 1;
     setCurrentIndex(newIndex);
   };
+
   return (
-    <div className=" h-[300px] w-full object-fit m-auto relative group ">
+    <div className=" h-[300px] w-full  m-auto relative group ">
       <div
         className="w-full h-full bg-center bg-cover duration-500 rounded-2xl"
         style={{
           backgroundImage: `url(${images[currentIndex].picture})`,
         }}
       >
+        <div
+          onClick={() => setFavourite(!favourite)}
+          className="hidden group-hover:block absolute top-[10%] -translate-x-0 translate-y-[-50%] right-2 text-2xl rounded-full p-2  text-white cursor-pointer"
+        >
+          {favourite ? <FaHeart size={24} /> : <FaRegHeart size={24} />}
+        </div>
+
         {currentIndex > 0 && (
           <div
             onClick={prevSlide}

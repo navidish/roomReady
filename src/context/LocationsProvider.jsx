@@ -18,7 +18,7 @@ function LocationsProvider({ children }) {
 
   const { isLoading, data: locations } = useFetch(
     BASE_URL,
-    `q=${destination || ''}&accommodates_gte=${room || 1}`
+    `q=${destination || ''}`
   );
   async function getLocation(id) {
     setIsLoadinCurrLocation(true);

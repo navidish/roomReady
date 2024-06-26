@@ -45,7 +45,7 @@ const Map = () => {
               listing?.coordinate?.longitude,
             ]}
           >
-            <Popup className="w-96">
+            <Popup>
               <div key={id}>
                 <Slider images={listing.contextualPictures} />
                 <div className="flex justify-between items-center">

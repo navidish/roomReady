@@ -4,11 +4,15 @@
 @tailwind utilities;
 
 :root {
-  font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto,
-    Helvetica Neue, sans-serif;
+  font-family: ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
 @layer base {
+  html {
+    font-family: sans-serif, ui-sans-serif, system-ui, 'Apple Color Emoji',
+      'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  }
   :root {
     --background-app-rgb: 255, 255, 255;
     --color-primary-900: 6, 78, 59;
@@ -44,7 +48,7 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: 'Vazir';
+
   min-height: 100vh;
   user-select: none;
   background-color: rgb(var(--background-app-rgb));
@@ -68,10 +72,10 @@ a {
 
 @layer components {
   .headerContainer {
-    @apply flex justify-center items-center gap-4;
+    @apply flex justify-between items-center gap-4 mt-4 mx-8;
   }
   .searchContainer {
-    @apply flex mt-4 w-full max-w-[900px] justify-between items-center gap-4 border border-gray-300 rounded-full p-4;
+    @apply flex  w-full max-w-[900px] justify-between items-center gap-4 border border-gray-300 rounded-full p-4;
   }
   .searchItemContainer {
     @apply flex items-center relative;

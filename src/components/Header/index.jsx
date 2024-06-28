@@ -4,19 +4,23 @@ import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 import { format } from 'date-fns';
 import { MdLocationOn } from 'react-icons/md';
+import { MdAccountCircle } from 'react-icons/md';
 import { HiCalendar, HiMinus, HiPlus, HiSearch } from 'react-icons/hi';
 import { DateRange } from 'react-date-range';
 import { useNavigate } from 'react-router';
 import { createSearchParams, useSearchParams } from 'react-router-dom';
+import { useAuth } from '../../context/AuthProvider';
 
 function Header() {
   const navigate = useNavigate();
+  const { user, logout, isAuthenticated } = useAuth();
   const [searchParams, setSearchParams] = useSearchParams();
   const [destination, setDestination] = useState(
     searchParams.get('destination') || ''
   );
   const [openOptions, setOpenOptions] = useState(false);
   const [openDate, setOpenDate] = useState(false);
+  const [openUserMenu, setOpenUserMenu] = useState(false);
   const [date, setDate] = useState([
     {
       startDate: new Date(),
@@ -73,76 +77,104 @@ function Header() {
       search: params.toString(),
     });
   };
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
+
   return (
     <div className="headerContainer">
-      <div className="searchContainer">
-        <div className="searchItemContainer">
-          <MdLocationOn className="icon text-primary-700" />
-          <input
-            value={destination}
-            onChange={(e) => setDestination(e.target.value)}
-            type="text"
-            placeholder="location"
-            className="px-3 py-2 text-sm"
-            name="destination"
-            id="destination"
+      <div className=" p-4 w-[150px] ">
+        <img src="../../../public/logo.png" />
+      </div>
+      {isAuthenticated && (
+        <div className="searchContainer">
+          <div className="searchItemContainer">
+            <MdLocationOn className="icon text-primary-700" />
+            <input
+              value={destination}
+              onChange={(e) => setDestination(e.target.value)}
+              type="text"
+              placeholder="location"
+              className="px-3 py-2 text-sm"
+              name="destination"
+              id="destination"
+            />
+            <span className="seperator"></span>
+          </div>
+          <div className="searchItemContainer">
+            <HiCalendar className="icon text-primary-700" />
+            <div
+              onClick={() => setOpenDate(!openDate)}
+              className="px-3 py-2 text-sm"
+            >
+              {`${format(date[0].startDate, 'MM/dd/yyyy')} to ${format(
+                date[0].endDate,
+                'MM/dd/yyyy'
+              )}`}
+            </div>
+
+            {openDate && (
+              <DateRange
+                className="popUpContainer"
+                onChange={(item) => setDate([item.selection])}
+                ranges={date}
+                minDate={new Date()}
+                moveRangeOnFirstSelection={true}
+              />
+            )}
+            <span className="seperator"></span>
+          </div>
+          <div className="searchItemContainer">
+            <div
+              className="flex w-full"
+              id="optionDropDown"
+              onClick={() => setOpenOptions(!openOptions)}
+            >
+              {guestOtions.map((option) => {
+                return (
+                  <div key={option.type}>
+                    {option.count}
+                    {option.type}
+                    &nbsp;&bull;&nbsp;
+                  </div>
+                );
+              })}
+            </div>
+            {openOptions && (
+              <GuestOptionList
+                setOpenOptions={setOpenOptions}
+                handleOptions={handleOptions}
+                options={guestOtions}
+              />
+            )}
+            <span className="seperator"></span>
+          </div>
+
+          <div className="searchItemContainer">
+            <button className="primaryBtn" onClick={handleSearch}>
+              <HiSearch className="icon" />
+            </button>
+          </div>
+        </div>
+      )}
+      <div
+        onClick={() => setOpenUserMenu(!openUserMenu)}
+        className="flex justify-between items-center  border rounded-full border-gray-300 p-4 w-[150px] hover:shadow-xl"
+      >
+        <span className="inline-block flex-1 text-sm">
+          <strong>{user?.name}</strong>
+        </span>
+        <MdAccountCircle size={36} className="text-primary-600" />
+
+        {openUserMenu && (
+          <UserMenuList
+            user={user}
+            isAuthenticated={isAuthenticated}
+            onExit={handleLogout}
           />
-          <span className="seperator"></span>
-        </div>
-        <div className="searchItemContainer">
-          <HiCalendar className="icon text-primary-700" />
-          <div
-            onClick={() => setOpenDate(!openDate)}
-            className="px-3 py-2 text-sm"
-          >
-            {`${format(date[0].startDate, 'MM/dd/yyyy')} to ${format(
-              date[0].endDate,
-              'MM/dd/yyyy'
-            )}`}
-          </div>
-
-          {openDate && (
-            <DateRange
-              className="popUpContainer"
-              onChange={(item) => setDate([item.selection])}
-              ranges={date}
-              minDate={new Date()}
-              moveRangeOnFirstSelection={true}
-            />
-          )}
-          <span className="seperator"></span>
-        </div>
-        <div className="searchItemContainer">
-          <div
-            className="flex w-full"
-            id="optionDropDown"
-            onClick={() => setOpenOptions(!openOptions)}
-          >
-            {guestOtions.map((option) => {
-              return (
-                <div key={option.type}>
-                  {option.count}
-                  {option.type}
-                  &nbsp;&bull;&nbsp;
-                </div>
-              );
-            })}
-          </div>
-          {openOptions && (
-            <GuestOptionList
-              setOpenOptions={setOpenOptions}
-              handleOptions={handleOptions}
-              options={guestOtions}
-            />
-          )}
-          <span className="seperator"></span>
-        </div>
-
-        <div className="searchItemContainer">
-          <button className="primaryBtn" onClick={handleSearch}>
-            <HiSearch className="icon" />
-          </button>
-        </div>
+        )}
       </div>
     </div>
   );
@@ -178,6 +210,26 @@ function GuestOptionList({ options, handleOptions }) {
           </div>
         </div>
       ))}
+    </div>
+  );
+}
+
+function UserMenuList({ user, isAuthenticated, onExit }) {
+  return (
+    <div className="popUpContainer  w-[150px]">
+      {isAuthenticated ? (
+        <div className="flex flex-col gap-8">
+          <span className="inline-block flex-1 text-sm">
+            <strong>{user?.name}</strong>
+          </span>
+
+          <span onClick={onExit} className="inline-block flex-1 text-sm">
+            Exit
+          </span>
+        </div>
+      ) : (
+        <span className="inline-block flex-1 text-sm">Log in</span>
+      )}
     </div>
   );
 }

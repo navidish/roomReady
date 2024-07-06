@@ -72,7 +72,7 @@ a {
 
 @layer components {
   .headerContainer {
-    @apply flex justify-between items-center gap-4 mt-4 mx-8;
+    @apply flex justify-between items-center gap-4;
   }
   .searchContainer {
     @apply flex  w-full max-w-[900px] justify-between items-center gap-4 border border-gray-300 rounded-full p-4;

@@ -82,6 +82,9 @@ function Header() {
     logout();
     navigate('/login');
   };
+  const handleLogin = () => {
+    navigate('/login');
+  };
 
   return (
     <div className="headerContainer">
@@ -173,6 +176,7 @@ function Header() {
             user={user}
             isAuthenticated={isAuthenticated}
             onExit={handleLogout}
+            onLogin={handleLogin}
           />
         )}
       </div>
@@ -214,7 +218,7 @@ function GuestOptionList({ options, handleOptions }) {
   );
 }
 
-function UserMenuList({ user, isAuthenticated, onExit }) {
+function UserMenuList({ user, isAuthenticated, onExit, onLogin }) {
   return (
     <div className="popUpContainer  w-[150px]">
       {isAuthenticated ? (
@@ -228,7 +232,9 @@ function UserMenuList({ user, isAuthenticated, onExit }) {
           </span>
         </div>
       ) : (
-        <span className="inline-block flex-1 text-sm">Log in</span>
+        <span className="inline-block flex-1 text-sm" onClick={onLogin}>
+          Log in
+        </span>
       )}
     </div>
   );

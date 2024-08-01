@@ -6,6 +6,7 @@ import { IoMapOutline } from 'react-icons/io5';
 import { FaList } from 'react-icons/fa6';
 import { useState } from 'react';
 import Map from '../Map';
+import { Link } from 'react-router-dom';
 function Locations() {
   const { isLoading, locations } = useLocations();
   const [openMap, setOpenMap] = useState(false);
@@ -30,7 +31,7 @@ function Locations() {
               return (
                 <div className="my-2" key={id}>
                   <Slider images={listing.contextualPictures} />
-                  <div className="mt-4">
+                  <Link to={`/location/${id}`} className="mt-4">
                     <div className="flex justify-between items-center">
                       <p className="font-extrabold">{listing.title}</p>
                       <div className="flex justify-center items-center gap-1">
@@ -46,7 +47,7 @@ function Locations() {
                       {listing.price}
                       <span className="font-normal ml-1">night</span>
                     </p>
-                  </div>
+                  </Link>
                 </div>
               );
             })}

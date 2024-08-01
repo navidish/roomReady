@@ -1,34 +1,39 @@
 /* eslint-disable no-unused-vars */
 import { useParams } from 'react-router';
 import { useLocations } from '../../context/LocationsProvider';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { IoShareOutline } from 'react-icons/io5';
 import { IoHeartOutline } from 'react-icons/io5';
 import LeftSign from '../../../assets/leftSign.png';
 import RightSign from '../../../assets/RightSign.png';
 import { FaStar } from 'react-icons/fa6';
 import { TiHome } from 'react-icons/ti';
-
+import { FaChevronLeft } from 'react-icons/fa6';
+import { FaChevronRight } from 'react-icons/fa6';
 import { MapContainer, Marker, TileLayer } from 'react-leaflet';
+import IconComponent from '../IconComponent';
+
 const Location = () => {
   const { id } = useParams();
   const { getLocation, isLoadingCurrLocation, currentLocation } =
     useLocations();
   const { listing, detail } = currentLocation;
-  console.log('currentLocation', currentLocation);
+  const [sleep,setSleep]=useState(detail?.sleepData?.arrangementDetails);
   useEffect(() => {
+    setSleep(detail?.sleepData?.arrangementDetails?.slice(0,2))
     getLocation(id);
   }, [id]);
+  console.log('listing',listing)
+
   return (
     <>
       {!!listing && (
-        <div>
+        <div className='mx-[200px]'>
           <div>
-            <div className="flex justify-between items-center mt-8">
+            <div className="flex justify-between items-center mt-4">
               <h1 className="font-bold text-gray-800 text-4xl">
                 {listing?.name}
               </h1>
-
               <div className="flex justify-between items-center gap-4">
                 <div className="flex justify-center items-center gap-2">
                   <IoShareOutline className="icon" /> <span>share</span>
@@ -38,34 +43,34 @@ const Location = () => {
                 </div>
               </div>
             </div>
-            <div className="mt-4 grid grid-cols-4 gap-2">
+            <div className="mt-4 grid grid-cols-4 gap-2 h-full">
               <img
-                className="col-span-2 rounded-tl-2xl rounded-bl-2xl h-80 w-full"
+                className="col-span-2 rounded-tl-2xl rounded-bl-2xl h-full w-full"
                 src={listing?.contextualPictures[0]?.picture}
               />
               <div className="flex flex-col gap-2">
                 <img
-                  className="  h-40 "
+                  className="h-1/2"
                   src={listing?.contextualPictures[1]?.picture}
                 />
                 <img
-                  className="  h-40 "
+                  className="h-1/2"
                   src={listing?.contextualPictures[2]?.picture}
                 />
               </div>
               <div className="flex flex-col gap-2">
                 <img
-                  className="rounded-tr-2xl  h-40 "
+                  className="rounded-tr-2xl h-1/2"
                   src={listing?.contextualPictures[3]?.picture}
                 />
                 <img
-                  className="rounded-br-2xl  h-40 "
+                  className="rounded-br-2xl h-1/2"
                   src={listing?.contextualPictures[4]?.picture}
                 />
               </div>
             </div>
           </div>
-          <div className="grid grid-cols-3 mt-8 ">
+          <div className="grid grid-cols-3 mt-4 ">
             <div className="col-span-2 pr-5">
               <h2 className="font-semibold text-[22px] text-gray-800">
                 Entire Home in {listing.title},united state
@@ -74,37 +79,77 @@ const Location = () => {
                 {listing?.overViewData}
               </p>
 
-              <div className="flex justify-between border p-4 mt-4 w-4/5 border-gray-300 rounded-2xl">
-                <img src={LeftSign} />
-                <div className=" font-semibold">
-                  <p>Guest</p> <p>favorite</p>
+              <div className="flex justify-between border p-4 mt-4 w-5/6 gap-2 border-gray-300 rounded-2xl">
+              <div className='flex'>
+                  <img  className='p-2' src={LeftSign} />
+                    <div className="font-semibold text-center">
+                        <p>Guest</p>
+                        <p>favorite</p>
+                    </div>
+                  <img  className='p-2' src={RightSign} />
+              </div>
+                <div className='w-60'>
+                  <p className='font-semibold text-base'>{listing?.brand?.description}</p>
                 </div>
-                <img src={RightSign} />
-                <div>
-                  <p>one of the most loved homes on </p>
-                  <p>airbnb,according by guest</p>
-                </div>
-                <div className="flex flex-col justify-center items-center">
-                  <p>rating</p>
-                  <div className="flex">
-                    <FaStar className="w-4 h-4" />
-                    <FaStar className="w-4 h-4" />
-                    <FaStar className="w-4 h-4" />
-                    <FaStar className="w-4 h-4" />
-                    <FaStar className="w-4 h-4" />
+                <div className="flex flex-col justify-center items-center gap-1">
+                  <p className='font-bold text-2xl'>{listing.avgRatingLocalized}</p>
+                  <div className="flex space-x-[2px]">
+                    {[...Array(5).keys().map((_e)=><FaStar className="w-3 h-3" />)]}
                   </div>
                 </div>
-                <div className="w-1 h-8 my-auto mx-1 bg-gray-700 border-0 rounded-full "></div>
+                <div className="w-[2px] h-8 my-auto mx-1 bg-gray-300 border-0 rounded-full "></div>
                 <div className="flex flex-col justify-center items-center">
-                  <p>25</p>
-                  <p>review</p>
+                  <p className='font-bold text-2xl'>25</p>
+                  <p>Reviews</p>
                 </div>
               </div>
               {detail?.highlights.map((_high, index) => (
                 <HighLighContainer key={index} highlight={_high} />
               ))}
+
+            <div>
+              <div className='flex justify-between items-center'>
+              <h3 className="font-bold text-gray-800 text-4xl my-4">
+                Where you’ll sleep
+              </h3>
+              <div className='flex gap-4'>
+
+          <div
+            onClick={()=>setSleep(detail?.sleepData?.arrangementDetails?.slice(0,2))}
+            className={`${sleep?.some((_e)=>_e.id==1)} ? disabled:cursor-not-allowed : border w-10 h-10 flex items-center justify-center border-gray-100 shadow-md text-2xl rounded-full p-2 text-block bg-white cursor-pointer`}>
+            <FaChevronLeft size={12} />
+          </div>
+
+          <div
+            onClick={()=>setSleep(detail?.sleepData?.arrangementDetails?.slice(sleep?.length,sleep?.length+2))}
+            className="border w-10 h-10 flex items-center justify-center border-gray-100 shadow-md text-2xl rounded-full p-2 text-block bg-white cursor-pointer"
+          >
+            <FaChevronRight size={12} />
+          </div>
+       
+              </div>
+              </div>
+            
+              
+              <div className='grid grid-cols-2 gap-2 w-full'>
+              {
+                sleep?.map((_elm)=>(
+                  <div >
+                    <img className='rounded-3xl' src={_elm.src}/>
+                    <p>{_elm.title}</p>
+                    <p>{_elm.subtitle}</p>
+                  </div>
+                ))
+              }
+               </div>
+            
+          
+          </div>
+
+             
+              
             </div>
-            <div className=" shadow-2xl p-4 rounded-xl mt-8 sticky top-16">
+            <div className=" shadow-2xl p-4 rounded-xl mt-8 sticky top-16 h-[300px]">
               <form onSubmit={() => console.log('clicked')}>
                 <div className="mb-4 relative">
                   <label className="block mb-1" htmlFor="email">
@@ -137,7 +182,34 @@ const Location = () => {
               </form>
             </div>
           </div>
-          <div>guest container</div>
+          <div className='flex flex-col justify-center items-center'>
+            <h3 className='text-2xl font-bold'>{detail?.ratingdata?.heading?.title}</h3>
+            <p className='line-clamp-2'>{detail?.ratingdata?.heading?.subtitle}</p>
+          </div>
+          <div className='grid grid-cols-7 divide-x my-8'>
+                <>
+                <div className='mr-4'>
+                <p className='text-gray-800 text-lg font-semibold'>Overall rating</p>
+                {
+                  detail?.ratingdata?.ratingDistribution?.map((_e)=>(
+                    <div className='flex items-center justify-center gap-2 '>
+                      <p className='text-sm'>{_e.label}</p>
+                      <div className="w-full bg-gray-200 rounded-full ">
+                      <div className={"bg-gray-700 h-1 rounded-full "} style={{width:_e.localizedRating}}></div>
+                      </div>
+                   </div>
+                  )
+                  )
+                }
+                </div>
+                  
+                {
+                detail?.ratingdata?.ratings?.map((_rat,index)=>(
+                  <RatingContainer key={index} reating={_rat}/>
+                ))}
+                </>
+              
+              </div>
           <div>
             <h3 className="font-bold text-gray-800 text-4xl my-4">
               Where you’ll be
@@ -180,26 +252,27 @@ const Location = () => {
 export default Location;
 
 const HighLighContainer = ({ highlight }) => {
-  const { title, subtitle } = highlight;
+  const { title, subtitle , icon } = highlight;
+ 
   return (
     <div className="flex items-center gap-4 p-2">
-      <div>icon</div>
+      <IconComponent icon={icon}/>
       <div>
-        <p className="text-gray-800 text-xl font-semibold py-2">{title}</p>
-        <p className="text-gray-700 text-lg">{subtitle}</p>
+        <p className="text-gray-800 text-base font-semibold py-2">{title}</p>
+        <p className="text-gray-700 text-sm">{subtitle}</p>
       </div>
     </div>
   );
 };
-const HouseFeatureContainer = ({ highlight }) => {
-  const { title, subtitle } = highlight;
+const RatingContainer = ({ reating }) => {
+  const { label, localizedRating ,icon} = reating;
   return (
-    <div className="flex items-center gap-4 p-2">
-      <div>icon</div>
-      <div>
-        <p className="text-gray-800 text-xl font-semibold py-2">{title}</p>
-        <p className="text-gray-700 text-lg">{subtitle}</p>
-      </div>
+      <div className='pl-2 flex flex-col justify-between'>
+       <div>
+        <p className="text-gray-800 text-lg font-semibold">{label}</p>
+        <p className="text-gray-800 text-lg  font-bold">{localizedRating}</p>
+       </div>
+       <div className='mt-8'> <IconComponent  icon={icon}/></div>
     </div>
   );
 };

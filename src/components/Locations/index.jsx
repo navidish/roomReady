@@ -12,7 +12,7 @@ function Locations() {
   const [openMap, setOpenMap] = useState(false);
 
   return (
-    <div className="my-4 mx-8 relative z-10">
+    <div className="my-4 relative z-10">
       {isLoading ? (
         <>
           <p className="text-primary-600">loading data ...</p>
@@ -29,13 +29,13 @@ function Locations() {
           <div className="grid gap-6 grid-cols-4">
             {locations?.map(({ id, listing }) => {
               return (
-                <div className="my-2" key={id}>
+                <Link to={`/location/${id}`} className="my-2" key={id}>
                   <Slider images={listing.contextualPictures} />
                   <Link to={`/location/${id}`} className="mt-4">
                     <div className="flex justify-between items-center">
-                      <p className="font-extrabold">{listing.title}</p>
+                      <p className="font-bold">{listing.title}</p>
                       <div className="flex justify-center items-center gap-1">
-                        <FaStar className="w-4 h-4" />
+                        <FaStar className="w-4 h-4 text-gray-800" />
                         <p className="text-gray-900">
                           {listing.avgRatingLocalized ?? 0}
                         </p>
@@ -43,12 +43,12 @@ function Locations() {
                     </div>
                     <p className="text-gray-700">{listing.primaryLine}</p>
                     <p className="text-gray-700">{listing.secondaryLine}</p>
-                    <p className="font-extrabold">
+                    <p className="font-bold">
                       {listing.price}
                       <span className="font-normal ml-1">night</span>
                     </p>
                   </Link>
-                </div>
+                </Link>
               );
             })}
           </div>

@@ -69,13 +69,35 @@ a {
   text-decoration: none;
   cursor: pointer;
 }
+.leaflet-popup-content-wrapper {
+  width: 320px;
+  border-radius: 16px;
+  padding: 0px !important;
+}
+
+.leaflet-popup-content {
+  width: 320px !important;
+  margin: 0px;
+}
+
+.leaflet-popup-close-button {
+  text-align: center;
+  width: 28px !important;
+  height: 28px !important;
+  top: 18px !important;
+  right: 8px !important;
+  border-radius: 32px !important;
+  background: white !important;
+  color: #4b5563 !important;
+  font-weight: bold !important;
+}
 
 @layer components {
   .headerContainer {
     @apply flex justify-between items-center gap-4;
   }
   .searchContainer {
-    @apply flex  w-full max-w-[900px] justify-between items-center gap-4 border border-gray-300 rounded-full p-4;
+    @apply flex  w-full max-w-[900px] justify-between items-center gap-4 border border-gray-300 rounded-full p-2;
   }
   .searchItemContainer {
     @apply flex items-center relative;
@@ -84,13 +106,16 @@ a {
     @apply w-0.5 h-3 inline-block bg-slate-300 mx-4;
   }
   .primaryBtn {
-    @apply flex items-center justify-center bg-primary-600 text-white p-2 rounded-2xl;
+    @apply flex items-center justify-center bg-primary-600 text-white p-2 rounded-full;
   }
   .icon {
     @apply w-6 h-6 inline-block;
   }
+  .UserMenuPopUpContainer {
+    @apply min-w-[198px] h-fit bg-white shadow-2xl  rounded-2xl p-4 bottom-0.5 border-gray-400 top-[72px] right-8 absolute z-30;
+  }
   .popUpContainer {
-    @apply w-[350px] h-fit bg-white shadow-2xl  rounded-2xl p-4 bottom-0.5 border-gray-400 top-8 absolute z-30;
+    @apply w-[350px] h-fit bg-white shadow-2xl  rounded-2xl p-4 bottom-0.5 border-gray-400 top-[42px] absolute z-30;
   }
   .guestItem {
     @apply flex items-center justify-between gap-4 mb-8;

@@ -47,18 +47,18 @@ const Map = () => {
           >
             <Popup>
               <div key={id}>
-                <Slider images={listing.contextualPictures} />
-                <div className="flex justify-between items-center">
-                  <p className="font-extrabold">{listing.title}</p>
-                  <div className="flex justify-center items-center gap-1">
+                <Slider images={listing.contextualPictures} isMapView={true} />
+                <div className="flex justify-between items-center px-2 h-8">
+                  <p className="font-bold">{listing.title}</p>
+                  <div className="flex justify-center items-center gap-1 ">
                     <FaStar className="w-4 h-4" />
                     <p className="text-gray-900">
                       {listing.avgRatingLocalized ?? 0}
                     </p>
                   </div>
                 </div>
-                <div className="flex gap-2">
-                  <p className="font-extrabold">
+                <div className="flex items-center gap-2 px-2 h-8 mb-2">
+                  <p className="font-bold">
                     {listing.price}
                     <span className="font-normal ml-1">
                       night<strong>.</strong>

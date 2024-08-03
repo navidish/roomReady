@@ -5,8 +5,8 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
 import { useLocations } from '../../context/LocationsProvider';
 import { IoShareOutline, IoHeartOutline } from 'react-icons/io5';
-import LeftSign from '../../../assets/leftSign.png';
-import RightSign from '../../../assets/RightSign.png';
+import LeftSign from '../../assets/leftSign.png';
+import RightSign from '../../assets/rightSign.png';
 import { FaChevronLeft, FaChevronRight, FaStar } from 'react-icons/fa6';
 import IconComponent from '../IconComponent';
 

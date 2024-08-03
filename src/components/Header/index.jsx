@@ -89,7 +89,7 @@ function Header() {
   return (
     <div className="headerContainer">
       <div className=" p-2 w-[150px] ">
-        <img src="../../../public/logo.png" />
+        <img src="/public/logo.png" />
       </div>
 
       <div className="searchContainer">

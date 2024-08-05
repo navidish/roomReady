@@ -3,9 +3,10 @@ import { createContext, useContext, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import useFetch from '../hooks/useFetch';
 import axios from 'axios';
+import db from '../server/db.json'
 
 const Locationcontext = createContext();
-const BASE_URL = 'http://localhost:5000/airbnb';
+const BASE_URL = db;
 
 function LocationsProvider({ children }) {
   const [currentLocation, setCurrentLocation] = useState({});
@@ -20,10 +21,11 @@ function LocationsProvider({ children }) {
     BASE_URL,
     `q=${destination || ''}`
   );
-  async function getLocation(id) {
+ function getLocation(id) {
     setIsLoadinCurrLocation(true);
     try {
-      const { data } = await axios.get(`${BASE_URL}/${id}`);
+      //const { data } = await axios.get(`${BASE_URL}/${id}`);
+      const data = db.airbnb.filter((_elm)=>_elm.id==id)
       setCurrentLocation(data);
       setIsLoadinCurrLocation(false);
     } catch (error) {

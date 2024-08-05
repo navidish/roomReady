@@ -9,6 +9,7 @@ import LeftSign from '../../assets/leftSign.png';
 import RightSign from '../../assets/rightSign.png';
 import { FaChevronLeft, FaChevronRight, FaStar } from 'react-icons/fa6';
 import IconComponent from '../IconComponent';
+import db from '../../server/db.json'
 
 const svgIcon = new L.divIcon({
   html: `<div class=" w-12 h-12 flex justify-center items-center rounded-full bg-primary-600  p-3"><svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false" style="display: block; height: 22px; width: 22px; fill: #fff;"><path d="m8.94959955 1.13115419 5.71719515 4.68049298c.2120231.18970472.3332053.46073893.3332053.74524138v7.94311145c0 .2761424-.2238576.5-.5.5h-4.5v-5.5c0-.24545989-.17687516-.44960837-.41012437-.49194433l-.08987563-.00805567h-3c-.27614237 0-.5.22385763-.5.5v5.5h-4.5c-.27614237 0-.5-.2238576-.5-.5v-7.95162536c0-.28450241.12118221-.55553661.3502077-.75978249l5.70008742-4.65820288c.55265671-.45163993 1.34701168-.45132001 1.89930443.00076492z"></path></svg></div>`,
@@ -17,14 +18,10 @@ const svgIcon = new L.divIcon({
 });
 const Location = () => {
   const { id } = useParams();
-  const { getLocation, isLoadingCurrLocation, currentLocation } =
-    useLocations();
-  const { listing, detail } = currentLocation;
+  const { getLocation, isLoadingCurrLocation, currentLocation } = useLocations();
+  const currentLocationJson = db.airbnb.filter((_elm)=>_elm.id == id)[0]
+  const { listing, detail } = currentLocationJson;
   const [sleep, setSleep] = useState(detail?.sleepData?.arrangementDetails);
-
-  useEffect(() => {
-    getLocation(id);
-  }, [id]);
 
   useEffect(() => {
     setSleep(detail?.sleepData?.arrangementDetails?.slice(0, 2));
@@ -33,7 +30,7 @@ const Location = () => {
   return (
     <>
       <div className="w-full h-[1px] bg-gray-200 mt-4 mb-8"></div>
-      {!!listing && (
+      {!!listing ? (
         <div className="mx-[86px]">
           <div>
             <div className="flex justify-between items-center mt-4">
@@ -295,7 +292,7 @@ const Location = () => {
 
           <div>guest info</div>
         </div>
-      )}
+      ):(<div>loading....</div>)}
     </>
   );
 };
